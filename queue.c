@@ -13,10 +13,8 @@ queue_t *q_new()
 {
     queue_t *q = malloc(sizeof(queue_t));
     /* TODO: What if malloc returned NULL? */
-    if (!q) {
-        printf("malloc returned NULL\n");
+    if (!q)
         return NULL;
-    }
     q->head = NULL;
     q->tail = NULL;
     q->size = 0;
@@ -28,9 +26,8 @@ void q_free(queue_t *q)
 {
     /* TODO: How about freeing the list elements and the strings? */
     /* Free queue structure */
-    if (!q) {
+    if (!q)
         return;
-    }
 
     for (list_ele_t *cur = q->head; cur;) {
         list_ele_t *tmp = cur;
@@ -52,14 +49,12 @@ bool q_insert_head(queue_t *q, char *s)
 {
     list_ele_t *newh;
     /* TODO: What should you do if the q is NULL? */
-    if (!q) {
+    if (!q)
         return false;
-    }
 
     newh = malloc(sizeof(list_ele_t));
-    if (!newh) {
+    if (!newh)
         return false;
-    }
 
     newh->value = malloc(sizeof(char) * (strlen(s) + 1));
     if (!newh->value) {
@@ -71,9 +66,8 @@ bool q_insert_head(queue_t *q, char *s)
     strncpy(newh->value, s, strlen(s));
     /* Don't forget to allocate space for the string and copy it */
     /* What if either call to malloc returns NULL? */
-    if (q->size == 0) {
+    if (q->size == 0)
         q->tail = newh;
-    }
     newh->next = q->head;
     q->head = newh;
     q->size++;
@@ -91,14 +85,12 @@ bool q_insert_tail(queue_t *q, char *s)
 {
     /* TODO: Remove the above comment when you are about to implement. */
     list_ele_t *newt;
-    if (!q) {
+    if (!q)
         return false;
-    }
 
     newt = malloc(sizeof(list_ele_t));
-    if (!newt) {
+    if (!newt)
         return false;
-    }
 
     newt->value = malloc(sizeof(char) * (strlen(s) + 1));
     if (!newt->value) {
@@ -132,9 +124,8 @@ bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
 {
     list_ele_t *tmp;
 
-    if (!q || q->size == 0) {
+    if (!q || q->size == 0)
         return false;
-    }
 
     tmp = q->head;
     if (sp) {
@@ -171,9 +162,8 @@ void q_reverse(queue_t *q)
 {
     list_ele_t *cur, *tmp;
 
-    if (!q || q->size == 0) {
+    if (!q || q->size == 0)
         return;
-    }
 
     q->tail = q->head;
     cur = q->head->next;
