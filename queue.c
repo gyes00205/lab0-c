@@ -48,6 +48,7 @@ void q_free(queue_t *q)
 bool q_insert_head(queue_t *q, char *s)
 {
     list_ele_t *newh;
+    int len = strlen(s);
     /* TODO: What should you do if the q is NULL? */
     if (!q)
         return false;
@@ -56,14 +57,14 @@ bool q_insert_head(queue_t *q, char *s)
     if (!newh)
         return false;
 
-    newh->value = malloc(sizeof(char) * (strlen(s) + 1));
+    newh->value = malloc(sizeof(char) * (len + 1));
     if (!newh->value) {
         free(newh->value);
         free(newh);
         return false;
     }
-    memset(newh->value, 0, strlen(s) + 1);
-    strncpy(newh->value, s, strlen(s));
+    memset(newh->value, 0, len + 1);
+    strncpy(newh->value, s, len);
     /* Don't forget to allocate space for the string and copy it */
     /* What if either call to malloc returns NULL? */
     if (q->size == 0)
@@ -85,6 +86,7 @@ bool q_insert_tail(queue_t *q, char *s)
 {
     /* TODO: Remove the above comment when you are about to implement. */
     list_ele_t *newt;
+    int len = strlen(s);
     if (!q)
         return false;
 
@@ -92,14 +94,14 @@ bool q_insert_tail(queue_t *q, char *s)
     if (!newt)
         return false;
 
-    newt->value = malloc(sizeof(char) * (strlen(s) + 1));
+    newt->value = malloc(sizeof(char) * (len + 1));
     if (!newt->value) {
         free(newt->value);
         free(newt);
         return false;
     }
-    memset(newt->value, 0, strlen(s) + 1);
-    strncpy(newt->value, s, strlen(s));
+    memset(newt->value, 0, len + 1);
+    strncpy(newt->value, s, len);
     newt->next = NULL;
     if (q->size == 0) {
         q->head = newt;
@@ -123,16 +125,16 @@ bool q_insert_tail(queue_t *q, char *s)
 bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
 {
     list_ele_t *tmp;
-
+    int len;
     if (!q || q->size == 0)
         return false;
 
     tmp = q->head;
+    len = strlen(tmp->value);
     if (sp) {
         memset(sp, 0, bufsize);
-        (bufsize > strlen(tmp->value))
-            ? strncpy(sp, tmp->value, strlen(tmp->value))
-            : strncpy(sp, tmp->value, bufsize - 1);
+        (bufsize > len) ? strncpy(sp, tmp->value, len)
+                        : strncpy(sp, tmp->value, bufsize - 1);
     }
 
     q->head = q->head->next;
