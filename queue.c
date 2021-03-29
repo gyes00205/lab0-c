@@ -186,34 +186,25 @@ void q_reverse(queue_t *q)
  */
 list_ele_t *merge(list_ele_t *l1, list_ele_t *l2)
 {
-    // merge with pseudo node
-    list_ele_t *tmp, *q;
-    if (strcmp(l1->value, l2->value) < 0) {
-        tmp = l1;
-        l1 = l1->next;
-    } else {
-        tmp = l2;
-        l2 = l2->next;
-    }
-    q = tmp;
+    list_ele_t **indirect, *result = NULL;
+    indirect = &result;
+
     while (l1 && l2) {
-        if (strcmp(l1->value, l2->value) < 0) {
-            tmp->next = l1;
-            tmp = tmp->next;
+        if (strcmp(l1->value, l2->value) <= 0) {
+            *indirect = l1;
             l1 = l1->next;
         } else {
-            tmp->next = l2;
-            tmp = tmp->next;
+            *indirect = l2;
             l2 = l2->next;
         }
+        indirect = &(*indirect)->next;
     }
 
     if (l1)
-        tmp->next = l1;
+        *indirect = l1;
     if (l2)
-        tmp->next = l2;
-
-    return q;
+        *indirect = l2;
+    return result;
 }
 
 list_ele_t *mergeSortList(list_ele_t *head)
